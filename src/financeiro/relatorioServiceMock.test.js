@@ -3,7 +3,7 @@ import { gerarResumoFinanceiro } from './relatorioService'
 
 jest.mock('./financeiroService')
 
-describe('Consulta de saldo geral', () => {
+describe('Consulta de saldo geral (mock)', () => {
     test('Deve coletar o saldo de todas as contas e calcular o total', async () => {
         logar.mockResolvedValue('fake-token')
         consultarSaldo.mockResolvedValue([
