@@ -133,13 +133,7 @@ O projeto possui integração contínua configurada via **GitHub Actions**.
 
 ## 👤 Autor
 
-<a href="https://github.com/rafarfelipe">
- <img style="border-radius: 50%;" src="https://github.com/rafarfelipe.png" width="100px;" alt=""/>
- <br />
- <sub><b>Rafael Felipe</b></sub>
-</a>
-
-Feito com ❤️ por Rafael Felipe!
+Feito por Rafael Felipe!
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/rafarfelipe)
 
