@@ -1,4 +1,4 @@
-# 🃏 Jest Financeiro Testes
+# Jest Financeiro Testes
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/rafarfelipe/jest-financeiro-testes)
 ![GitHub last commit](https://img.shields.io/github/last-commit/rafarfelipe/jest-financeiro-testes)
@@ -10,86 +10,90 @@
 
 ---
 
-## 📋 Índice
+## Indice
 
-- [Sobre](#-sobre)
-- [Aprendizados](#-aprendizados)
-- [Tecnologias](#-tecnologias)
-- [Estrutura do Projeto](#-estrutura-do-projeto)
-- [Como executar](#-como-executar)
-- [Testes](#-testes)
-- [CI/CD](#-cicd)
-- [Autor](#-autor)
-
----
-
-## 🎯 Sobre
-
-Este repositório reúne estudos práticos de testes automatizados utilizando **Jest**. O foco é dominar desde testes unitários básicos até configurações avançadas de cobertura e integração contínua com GitHub Actions.
-
-O projeto simula cenários reais com módulos de **finanças** e **pedidos**, permitindo praticar testes de integração com APIs externas e mocks.
+- [Sobre](#sobre)
+- [Aprendizados](#aprendizados)
+- [Tecnologias](#tecnologias)
+- [Estrutura do Projeto](#estrutura-do-projeto)
+- [Como executar](#como-executar)
+- [Testes](#testes)
+- [CI/CD](#cicd)
+- [Autor](#autor)
 
 ---
 
-## 📚 Aprendizados
+## Sobre
+
+Este repositório reúne estudos praticos de testes automatizados utilizando **Jest**. O foco e dominar desde testes unitarios basicos ate configuracoes avancadas de cobertura e integracao continua com GitHub Actions.
+
+O projeto simula cenarios reais com modulos de **financas** e **pedidos**, permitindo praticar testes de integracao com APIs externas e mocks.
+
+### API Utilizada
+
+Os testes de integracao sao realizados contra a API do [Barriga React](https://barrigareact.wcaquino.me/), uma aplicacao de controle financeiro utilizada para testes e aprendizado.
+
+---
+
+## Aprendizados
 
 Durante o desenvolvimento deste projeto, foram absorvidos os seguintes conceitos:
 
-- ✅ Criar testes unitários do zero com Jest
-- ✅ Dominar o uso de Mocks, Stubs e Spies
-- ✅ Configurar pipelines de Integração Contínua (CI) no GitHub Actions
-- ✅ Interpretar e otimizar métricas de cobertura de código
-- ✅ Gerar relatórios profissionais em formatos JUnit e JSON
-- ✅ Debugar testes falhos com precisão
-- ✅ Estruturar suítes de testes sustentáveis
+- Criar testes unitarios do zero com Jest
+- Dominar o uso de Mocks, Stubs e Spies
+- Configurar pipelines de Integracao Continua (CI) no GitHub Actions
+- Interpretar e otimizar metricas de cobertura de codigo
+- Gerar relatorios profissionais em formatos JUnit e JSON
+- Debugar testes falhos com precisao
+- Estruturar suites de testes sustentaveis
 
 ---
 
-## 🛠 Tecnologias
+## Tecnologias
 
-As seguintes ferramentas foram usadas na construção do projeto:
+As seguintes ferramentas foram usadas na construcao do projeto:
 
 - **JavaScript (ES6+)**
 - **Jest 30.x** - Framework de testes
 - **Babel** - Transpilador para suporte a ES Modules
-- **Axios** - Cliente HTTP para testes de integração
+- **Axios** - Cliente HTTP para testes de integracao
 - **GitHub Actions** - CI/CD
 
 ---
 
-## 📁 Estrutura do Projeto
+## Estrutura do Projeto
 
 ```
 jest-financeiro-testes/
 ├── src/
-│   ├── basico/           # Testes básicos (calculadora, matchers)
-│   ├── financeiro/       # Módulo financeiro e testes de integração
-│   └── pedidos/         # Módulo de pedidos e serviços
+│   ├── basico/           # Testes basicos (calculadora, matchers)
+│   ├── financeiro/       # Modulo financeiro e testes de integracao
+│   └── pedidos/         # Modulo de pedidos e servicos
 ├── .github/
 │   └── workflows/       # Pipeline CI/CD
-├── jest.config.js        # Configuração do Jest
-├── .babelrc             # Configuração do Babel
+├── jest.config.js        # Configuracao do Jest
+├── .babelrc             # Configuracao do Babel
 └── package.json
 ```
 
 ---
 
-## 🚀 Como executar
+## Como executar
 
-### Pré-requisitos
+### Pre-requisitos
 - Node.js 24.x ou superior
 - Git
 
 ### Passos
 
 ```bash
-# Clone o repositório
+# Clone o repositorio
 git clone git@github.com:rafarfelipe/jest-financeiro-testes.git
 
 # Acesse a pasta
 cd jest-financeiro-testes
 
-# Instale as dependências
+# Instale as dependencias
 npm install
 
 # Execute os testes
@@ -98,7 +102,7 @@ npm test
 
 ---
 
-## 🧪 Testes
+## Testes
 
 ### Executar todos os testes
 ```bash
@@ -110,39 +114,39 @@ npm test
 npm run test:watch
 ```
 
-### Gerar relatório de cobertura
+### Gerar relatorio de cobertura
 ```bash
 npm run test:coverage
 ```
 
 ### Cobertura de Testes
-O projeto mantém uma meta de **90% de cobertura** em linhas de código, conforme configurado em `jest.config.js`.
+O projeto mantem uma meta de **90% de cobertura** em linhas de codigo, conforme configurado em `jest.config.js`.
 
 ---
 
-## ⚙️ CI/CD
+## CI/CD
 
-O projeto possui integração contínua configurada via **GitHub Actions**.
+O projeto possui integracao continua configurada via **GitHub Actions**.
 
 - Arquivo: `.github/workflows/jest.yml`
 - Executa automaticamente em push e pull requests para `main`
 - Node.js 24.x
-- Instala dependências e executa todos os testes
+- Instala dependencias e executa todos os testes
 
 ---
 
-## 👤 Autor
+## Autor
 
-Feito por Rafael Felipe!
+Feito por Rafael Felipe.
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/rafarfelipe)
 
 ---
 
-## 📝 Licença
+## Licenca
 
-Este projeto está sob a licença **ISC**. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+Este projeto esta sob a licenca **ISC**. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 ---
 
-<p align="center">Desenvolvido com dedicação estudando testes automatizados 🚀</p>
+<p align="center">Desenvolvido com dedicacao estudando testes automatizados</p>
