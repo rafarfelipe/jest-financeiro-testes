@@ -7,267 +7,184 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    :root {
-      --bg-primary: #0a0e1a; --bg-secondary: #111827; --bg-card: rgba(17, 24, 39, 0.7);
-      --border: rgba(255, 255, 255, 0.08); --text-primary: #f1f5f9;
-      --text-secondary: #94a3b8; --text-muted: #64748b; --accent: #6366f1;
-      --accent-light: #818cf8; --green: #10b981; --green-light: rgba(16, 185, 129, 0.15);
-      --red: #ef4444; --red-light: rgba(239, 68, 68, 0.15);
-      --yellow: #f59e0b; --yellow-light: rgba(245, 158, 11, 0.15);
-      --blue: #3b82f6; --blue-light: rgba(59, 130, 246, 0.15);
-      --radius: 16px; --shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --bg:#0a0e1a;--bg-card:rgba(17,24,39,0.8);--border:rgba(255,255,255,0.08);
+      --text:#f1f5f9;--text-muted:#64748b;--accent:#6366f1;--blue:#3b82f6;
+      --green:#10b981;--red:#ef4444;--yellow:#f59e0b;
     }
-    body {
-      font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary);
-      min-height: 100vh; padding: 24px;
-      background-image: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.15), transparent),
-                        radial-gradient(ellipse 60% 40% at 80% 100%, rgba(59, 130, 246, 0.08), transparent);
-    }
-    .container { max-width: 1400px; margin: 0 auto; }
-    header {
-      display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;
-      padding: 20px 28px; background: var(--bg-card); backdrop-filter: blur(20px);
-      border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow);
-    }
-    .header-left { display: flex; align-items: center; gap: 16px; }
-    .logo { width: 42px; height: 42px; background: linear-gradient(135deg, var(--accent), var(--blue));
-      border-radius: 12px; display: flex; align-items: center; justify-content: center;
-      font-size: 20px; font-weight: 700; color: white; }
-    h1 { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; }
-    h1 span { color: var(--accent-light); }
-    .header-right { display: flex; align-items: center; gap: 12px; }
-    .last-update { color: var(--text-muted); font-size: 12px; margin-right: 8px; }
-    .btn {
-      background: linear-gradient(135deg, var(--accent), var(--blue)); color: white;
-      border: none; padding: 10px 22px; border-radius: 10px; font-weight: 600; font-size: 14px;
-      cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 8px;
-      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-    }
-    .btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4); }
-    .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
-    .cards-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 24px; }
-    .card {
-      background: var(--bg-card); backdrop-filter: blur(20px); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow);
-      transition: transform 0.3s ease, box-shadow 0.3s ease; position: relative; overflow: hidden;
-    }
-    .card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      border-radius: 3px 3px 0 0;
-    }
-    .card:nth-child(1)::before { background: linear-gradient(90deg, var(--blue), var(--accent)); }
-    .card:nth-child(2)::before { background: linear-gradient(90deg, var(--green), #34d399); }
-    .card:nth-child(3)::before { background: linear-gradient(90deg, var(--red), #f87171); }
-    .card:nth-child(4)::before { background: linear-gradient(90deg, var(--yellow), #fbbf24); }
-    .card:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); }
-    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-    .card h3 { font-size: 13px; color: var(--text-secondary); font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
-    .card-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
-    .card:nth-child(1) .card-icon { background: var(--blue-light); }
-    .card:nth-child(2) .card-icon { background: var(--green-light); }
-    .card:nth-child(3) .card-icon { background: var(--red-light); }
-    .card:nth-child(4) .card-icon { background: var(--yellow-light); }
-    .card .value { font-size: 36px; font-weight: 700; letter-spacing: -0.03em; line-height: 1; }
-    .card:nth-child(1) .value { color: var(--blue); }
-    .card:nth-child(2) .value { color: var(--green); }
-    .card:nth-child(3) .value { color: var(--red); }
-    .card:nth-child(4) .value { color: var(--yellow); }
-    .card .subtitle { font-size: 12px; color: var(--text-muted); margin-top: 8px; }
-    .charts-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 24px; }
-    .chart-card {
-      background: var(--bg-card); backdrop-filter: blur(20px); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow);
-    }
-    .chart-card h2 { font-size: 16px; font-weight: 600; margin-bottom: 20px; color: var(--text-primary); display: flex; align-items: center; gap: 8px; }
-    .chart-container { position: relative; height: 280px; }
-    .table-section {
-      background: var(--bg-card); backdrop-filter: blur(20px); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); margin-bottom: 24px;
-    }
-    .table-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-    .table-header h2 { font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
-    .filter-tabs { display: flex; gap: 4px; background: var(--bg-primary); padding: 4px; border-radius: 10px; }
-    .filter-tab {
-      padding: 6px 14px; border-radius: 8px; border: none; background: transparent;
-      color: var(--text-secondary); font-size: 13px; cursor: pointer; transition: all 0.2s; font-family: inherit;
-    }
-    .filter-tab.active { background: var(--accent); color: white; }
-    .filter-tab:hover:not(.active) { color: var(--text-primary); }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border); }
-    th { color: var(--text-muted); font-weight: 500; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
-    td { font-size: 14px; color: var(--text-secondary); }
-    tr:hover td { background: rgba(255, 255, 255, 0.02); }
-    .status-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; }
-    .status-pass { background: var(--green-light); color: var(--green); }
-    .status-fail { background: var(--red-light); color: var(--red); }
-    .progress-bar { width: 100px; height: 6px; background: var(--bg-primary); border-radius: 3px; overflow: hidden; display: inline-block; margin-right: 8px; vertical-align: middle; }
-    .progress-fill { height: 100%; border-radius: 3px; transition: width 0.5s ease; }
-    .progress-fill.green { background: var(--green); }
-    .progress-fill.yellow { background: var(--yellow); }
-    .progress-fill.red { background: var(--red); }
-    .loading { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 20px; color: var(--text-muted); gap: 16px; }
-    .spinner { width: 40px; height: 40px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    .card, .chart-card, .table-section { animation: fadeIn 0.5s ease forwards; }
-    .card:nth-child(2) { animation-delay: 0.1s; }
-    .card:nth-child(3) { animation-delay: 0.2s; }
-    .card:nth-child(4) { animation-delay: 0.3s; }
-    @media (max-width: 1024px) { .cards-grid { grid-template-columns: repeat(2, 1fr); } .charts-grid { grid-template-columns: 1fr; } }
-    @media (max-width: 640px) { body { padding: 12px; } .cards-grid { grid-template-columns: 1fr; } header { flex-direction: column; gap: 16px; text-align: center; } .header-right { flex-direction: column; } .table-header { flex-direction: column; gap: 12px; } }
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:24px;background-image:radial-gradient(ellipse 80% 50% at 50% -20%,rgba(99,102,241,0.15),transparent)}
+    .container{max-width:1400px;margin:0 auto}
+    header{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;padding:20px 28px;background:var(--bg-card);border:1px solid var(--border);border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,0.3)}
+    .logo{width:42px;height:42px;background:linear-gradient(135deg,var(--accent),var(--blue));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#fff}
+    h1{font-size:20px;font-weight:600}h1 span{color:#818cf8}
+    .btn{background:linear-gradient(135deg,var(--accent),var(--blue));color:#fff;border:none;padding:10px 22px;border-radius:10px;font-weight:600;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .3s}
+    .btn:hover{transform:translateY(-1px)}
+    .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:24px}
+    .card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:24px;position:relative;overflow:hidden;transition:transform .3s}
+    .card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+    .card:nth-child(1)::before{background:linear-gradient(90deg,var(--blue),var(--accent))}
+    .card:nth-child(2)::before{background:linear-gradient(90deg,var(--green),#34d399)}
+    .card:nth-child(3)::before{background:linear-gradient(90deg,var(--red),#f87171)}
+    .card:nth-child(4)::before{background:linear-gradient(90deg,var(--yellow),#fbbf24)}
+    .card:hover{transform:translateY(-2px)}
+    .card h3{font-size:13px;color:var(--text-muted);font-weight:500;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+    .card .val{font-size:36px;font-weight:700;letter-spacing:-.03em}
+    .card:nth-child(1) .val{color:var(--blue)}
+    .card:nth-child(2) .val{color:var(--green)}
+    .card:nth-child(3) .val{color:var(--red)}
+    .card:nth-child(4) .val{color:var(--yellow)}
+    .card .sub{font-size:12px;color:var(--text-muted);margin-top:4px}
+    .charts{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-bottom:24px}
+    .chart-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:24px}
+    .chart-card h2{font-size:16px;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+    .chart-container{position:relative;height:240px}
+    .section{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:24px}
+    .section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+    .section h2{font-size:16px;font-weight:600;display:flex;align-items:center;gap:8px}
+    .filter-tabs{display:flex;gap:4px;background:var(--bg);padding:4px;border-radius:10px}
+    .filter-tab{padding:6px 14px;border:none;background:transparent;color:var(--text-muted);font-size:13px;cursor:pointer;border-radius:8px}
+    .filter-tab.active{background:var(--accent);color:#fff}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--border)}
+    th{color:var(--text-muted);font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:.05em}
+    td{font-size:14px;color:var(--text-muted)}
+    tr:hover td{background:rgba(255,255,255,0.02)}
+    .badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:500}
+    .badge-pass{background:rgba(16,185,129,0.15);color:var(--green)}
+    .badge-fail{background:rgba(239,68,68,0.15);color:var(--red)}
+    .progress{width:100px;height:6px;background:var(--bg);border-radius:3px;overflow:hidden;display:inline-block;margin-right:8px;vertical-align:middle}
+    .progress-bar{height:100%;border-radius:3px;transition:width .5s}
+    .progress-bar.green{background:var(--green)}
+    .progress-bar.yellow{background:var(--yellow)}
+    .progress-bar.red{background:var(--red)}
+    .loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;color:var(--text-muted);gap:16px}
+    .spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    @media(max-width:1024px){.cards{grid-template-columns:repeat(2,1fr)}.charts{grid-template-columns:1fr}}
+    @media(max-width:640px){body{padding:12px}.cards{grid-template-columns:1fr}header{flex-direction:column;gap:16px;text-align:center}}
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <div class="header-left">
-        <div class="logo">J</div>
-        <div><h1>Jest <span>Financeiro</span> Dashboard</h1></div>
-      </div>
-      <div class="header-right">
-        <span class="last-update" id="lastUpdate">-</span>
-        <button class="btn btn-outline" onclick="fetchData()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
-          Atualizar
-        </button>
-        <button class="btn" id="runTestsBtn" onclick="runTests()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-          Executar Testes
-        </button>
-      </div>
-    </header>
-    <div id="errorContainer"></div>
-    <div class="cards-grid">
-      <div class="card"><div class="card-header"><h3>Total de Testes</h3><div class="card-icon">📊</div></div>
-        <div class="value" id="totalTests">0</div><div class="subtitle" id="totalSubtitle">-</div></div>
-      <div class="card"><div class="card-header"><h3>Passando</h3><div class="card-icon">✓</div></div>
-        <div class="value" id="passingTests">0</div><div class="subtitle" id="passingSubtitle">-</div></div>
-      <div class="card"><div class="card-header"><h3>Falhando</h3><div class="card-icon">✗</div></div>
-        <div class="value" id="failingTests">0</div><div class="subtitle" id="failingSubtitle">-</div></div>
-      <div class="card"><div class="card-header"><h3>Cobertura Média</h3><div class="card-icon">📈</div></div>
-        <div class="value" id="coverageAvg">0%</div><div class="subtitle" id="coverageSubtitle">-</div></div>
-    </div>
-    <div class="charts-grid">
-      <div class="chart-card"><h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>Cobertura de Código</h2>
-        <div class="chart-container"><canvas id="coverageChart"></canvas></div></div>
-      <div class="chart-card"><h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10M18 20V4M6 20v-6"/></svg>Tempo de Execução</h2>
-        <div class="chart-container"><canvas id="timeChart"></canvas></div></div>
-    </div>
-    <div class="table-section">
-      <div class="table-header"><h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Testes por Arquivo</h2>
-        <div class="filter-tabs"><button class="filter-tab active" data-filter="all" onclick="filterTable('all')">Todos</button>
-        <button class="filter-tab" data-filter="passed" onclick="filterTable('passed')">Passou</button>
-        <button class="filter-tab" data-filter="failed" onclick="filterTable('failed')">Falhou</button></div></div>
-      <div id="testSuites"><div class="loading"><div class="spinner"></div><span>Carregando dados...</span></div></div>
-    </div>
-  </div>
-  <footer><p>Verificar status no <a href="https://github.com/rafarfelipe/jest-financeiro-testes/actions" target="_blank">GitHub Actions</a> • Atualização automática a cada 30s</p></footer>
-  <script>
-    let covChart=null,timeChart=null,suites=[],filter='all';
-    const colors={g:'#10b981',r:'#ef4444',y:'#f59e0b',b:'#3b82f6',p:'#8b5cf6',a:'#6366f1',gr:'rgba(255,255,255,0.05)',t:'#94a3b8'};
-    async function fetchData(){
-      try{
-        const[r,c]=await Promise.all([
-          fetch('/api/report').catch(()=>null),fetch('/api/coverage').catch(()=>null)
-        ]);
-        if(r&&r.ok)renderReport(await r.json());
-        if(c&&c.ok)renderCoverage(await c.json());
-        document.getElementById('lastUpdate').textContent='Atualizado: '+new Date().toLocaleTimeString('pt-BR');
-      }catch(e){showError('Erro: '+e.message);}
-    }
-    function renderReport(d){
-      const tot=d.numTotalTests||0,pass=d.numPassedTests||0,fail=d.numFailedTests||0;
-      animateValue('totalTests',tot);animateValue('passingTests',pass);animateValue('failingTests',fail);
-      document.getElementById('totalSubtitle').textContent=(d.numTotalTestSuites||0)+' suites';
-      document.getElementById('passingSubtitle').textContent=((pass/tot)*100||0).toFixed(1)+'%';
-      document.getElementById('failingSubtitle').textContent=fail>0?fail+' teste(s) com erro':'Tudo certo!';
-      suites=d.testResults||[];renderTable(suites);renderTimeChart(suites);
-    }
-    function renderCoverage(d){
-      const files=Object.values(d).filter(f=>f&&(f.s||f.fnMap||f.l));
-      if(!files.length)return;
-      let st=0,fn=0,li=0,br=0,stc=0,fnc=0,lic=0,brc=0;
-      files.forEach(f=>{
-        if(f.s){const ks=Object.keys(f.s);st+=(ks.filter(k=>f.s[k]>0).length/ks.length)*100;stc++;}
-        if(f.fnMap){const ks=Object.keys(f.f||{});fn+=(ks.filter(k=>f.f[k]>0).length/ks.length)*100;fnc++;}
-        if(f.l){const ks=Object.values(f.l);li+=(ks.filter(v=>v>0).length/ks.length)*100;lic++;}
-        if(f.branchMap){const ks=Object.values(f.b||{});br+=(ks.filter(v=>v>0).length/ks.length)*100;brc++;}
-      });
-      const avg=((stc?st/stc:0)+(fnc?fn/fnc:0)+(lic?li/lic:0)+(brc?br/brc:100))/4;
-      document.getElementById('coverageAvg').textContent=avg.toFixed(1)+'%';
-      document.getElementById('coverageSubtitle').textContent=avg>=80?'Cobertura excelente':avg>=60?'Cobertura média':'Cobertura baixa';
-      renderCoverageChart(stc?st/stc:0,fnc?fn/fnc:0,lic?li/lic:0,brc?br/brc:100);
-    }
-    function renderCoverageChart(s,f,l,b){
-      const ctx=document.getElementById('coverageChart').getContext('2d');
-      if(covChart)covChart.destroy();
-      covChart=new Chart(ctx,{type:'doughnut',data:{labels:['Stmts','Funcs','Lines','Branches'],
-        datasets:[{data:[s,f,l,b],backgroundColor:[colors.b,colors.p,colors.g,colors.y],
-          borderWidth:0,borderRadius:4,spacing:3}]},
-        options:{responsive:true,maintainAspectRatio:false,cutout:'75%',plugins:{
-          legend:{position:'bottom',labels:{color:colors.t,padding:16,font:{size:12,family:'Inter'},
-            usePointStyle:true,pointStyleWidth:10}},
-          tooltip:{backgroundColor:'#1e293b',titleColor:'#f1f5f9',bodyColor:colors.t,
-            borderColor:'rgba(255,255,255,0.1)',borderWidth:1,cornerRadius:8,padding:12,
-            callbacks:{label:(c)=>` ${c.label}: ${c.parsed.toFixed(1)}%`}}}}}});
-    }
-    function renderTimeChart(s){
-      const ctx=document.getElementById('timeChart').getContext('2d');
-      let it=[];s.forEach(x=>{const n=x.name.split(/[\\/]/).pop().replace('.test.js','');
-        const t=((x.endTime||0)-(x.startTime||0))/1000;if(t>0)it.push({name:n,time:t});});
-      it.sort((a,b)=>b.time-a.time);it=it.slice(0,8);
-      if(timeChart)timeChart.destroy();
-      timeChart=new Chart(ctx,{type:'bar',data:{labels:it.map(i=>i.name),
-        datasets:[{label:'Tempo (s)',data:it.map(i=>i.time),
-          backgroundColor:it.map(i=>i.time>1?colors.r+'cc':i.time>0.5?colors.y+'cc':colors.g+'cc'),
-          borderColor:it.map(i=>i.time>1?colors.r:i.time>0.5?colors.y:colors.g),
-          borderWidth:1,borderRadius:6,borderSkipped:false}]},
-        options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false},
-          tooltip:{backgroundColor:'#1e293b',titleColor:'#f1f5f9',bodyColor:colors.t,
-            borderColor:'rgba(255,255,255,0.1)',borderWidth:1,cornerRadius:8,padding:12,
-            callbacks:{label:(c)=>` ${c.parsed.x.toFixed(2)}s`}}},scales:{
-          x:{grid:{color:colors.gr},ticks:{color:colors.t,font:{size:11}},
-            title:{display:true,text:'Segundos',color:colors.t}},
-          y:{grid:{display:false},ticks:{color:colors.t,font:{size:11}}}}}})};
-    function renderTable(s){
-      const el=document.getElementById('testSuites');
-      if(!s.length){el.innerHTML='<div class="loading"><div class="spinner"></div><span>Nenhum teste</span></div>';return;}
-      let h='<table><thead><tr><th>Arquivo</th><th>Status</th><th>Passou</th><th>Falhou</th><th>Cov</th><th>Tempo</th></tr></thead><tbody>';
-      s.forEach(x=>{const n=x.name.split(/[\\/]/).pop();const st=x.status==='passed'?'pass':'fail';
-        const stt=x.status==='passed'?'Passou':'Falhou';
-        const t=(((x.endTime||0)-(x.startTime||0))/1000).toFixed(2);
-        const a=x.assertionResults||[];const pc=a.filter(z=>z.status==='passed').length;
-        const fc=a.filter(z=>z.status==='failed').length;const tot=pc+fc;
-        const pct=tot>0?(pc/tot)*100:0;const cl=pct>=90?'green':pct>=50?'yellow':'red';
-        h+=`<tr class="row-${st}"><td><strong>${n}</strong></td><td><span class="status-badge status-${st}">${stt}</span></td>
-        <td style="color:var(--green)">${pc}</td><td style="color:var(--red)">${fc}</td>
-        <td><div class="progress-bar"><div class="progress-fill ${cl}" style="width:${pct}%"></div></div>${pct.toFixed(0)}%</td><td>${t}s</td></tr>`;
-      });h+='</tbody></table>';el.innerHTML=h;
-    }
-    function filterTable(f){filter=f;document.querySelectorAll('.filter-tab').forEach(t=>
-      t.classList.toggle('active',t.dataset.filter===f));renderTable(filter==='all'?suites:
-      filter==='passed'?suites.filter(x=>x.status==='passed'):suites.filter(x=>x.status==='failed'));
-    }
-    function animateValue(id,e){const el=document.getElementById(id);const s=parseInt(el.textContent)||0;
-      const d=600,t=performance.now();function u(n){const p=Math.min((n-t)/d,1);const e=1-Math.pow(1-p,3);
-      el.textContent=Math.round(s+(e*(s?0:s-e)*0+s-e));if(p<1)requestAnimationFrame(u);}
-      requestAnimationFrame(u);}
-    async function runTests(){
-      const b=document.getElementById('runTestsBtn');b.disabled=true;
-      b.innerHTML='<div class="spinner" style="width:14px;height:14px;border-width:2px"></div> Executando...';
-      hideError();
-      try{const r=await fetch('/api/run-tests',{method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({type:'all'})});const t=await r.text();let d;
-        try{d=JSON.parse(t);}catch(e){throw new Error('Resposta inválida');}
-        if(d.success)await fetchData();else showError('Erro: '+(d.error||'desconhecido'));
-      }catch(e){showError('Erro: '+e.message);}
-      finally{b.disabled=false;b.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg> Executar Testes';}
-    }
-    function showError(m){document.getElementById('errorContainer').innerHTML=`<div class="error"><span class="error-icon">⚠️</span>${m}</div>`;}
-    function hideError(){document.getElementById('errorContainer').innerHTML='';}
-    fetchData();setInterval(fetchData,30000);
-  </script>
+<div class="container">
+<header>
+<div style="display:flex;align-items:center;gap:16px">
+<div class="logo">J</div><div><h1>Jest <span>Financeiro</span> Dashboard</h1></div>
+</div>
+<div style="display:flex;align-items:center;gap:12px">
+<span id="update" style="color:var(--text-muted);font-size:12px">-</span>
+<button class="btn" onclick="runTests()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>Executar</button>
+</div>
+</header>
+<div id="error"></div>
+<div class="cards">
+<div class="card"><div class="card-header"><h3>Total de Testes</h3></div><div class="val" id="total">0</div><div class="sub" id="subtotal">-</div></div>
+<div class="card"><div class="card-header"><h3>Passando</h3></div><div class="val" id="pass">0</div><div class="sub" id="subpass">-</div></div>
+<div class="card"><div class="card-header"><h3>Falhando</h3></div><div class="val" id="fail">0</div><div class="sub" id="subfail">-</div></div>
+<div class="card"><div class="card-header"><h3>Cobertura</h3></div><div class="val" id="cov">0%</div><div class="sub" id="subcov">-</div></div>
+</div>
+<div class="charts">
+<div class="chart-card"><h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>Cobertura</h2><div class="chart-container"><canvas id="covChart"></canvas></div></div>
+<div class="chart-card"><h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10M18 20V4M6 20v-6"/></svg>Tempo</h2><div class="chart-container"><canvas id="timeChart"></canvas></div></div>
+</div>
+<div class="section">
+<div class="section-header">
+<h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Testes por Arquivo</h2>
+<div class="filter-tabs"><button class="filter-tab active" onclick="filter('all')">Todos</button><button class="filter-tab" onclick="filter('pass')">Passou</button><button class="filter-tab" onclick="filter('fail')">Falhou</button></div>
+</div>
+<div id="suites"><div class="loading"><div class="spinner"></div><span>Carregando...</span></div></div>
+</div>
+</div>
+<script>
+let covC=null,timeC=null,data=[],filter='all';
+const colors={b:'#3b82f6',p:'#8b5cf6',g:'#10b981',y:'#f59e0b',r:'#ef4444',gr:'rgba(255,255,255,0.05)',t:'#94a3b8'};
+async function fetchData(){
+  try{
+    const[r,c]=await Promise.all([
+      fetch('/api/report').catch(()=>null),fetch('/api/coverage').catch(()=>null)
+    ]);
+    if(r&&r.ok)renderR(await r.json());
+    if(c&&c.ok)renderC(await c.json());
+    document.getElementById('update').textContent='Atualizado: '+new Date().toLocaleTimeString('pt-BR');
+  }catch(e){showErr(e.message);}
+}
+function renderR(d){
+  const tot=d.numTotalTests||0,pass=d.numPassedTests||0,fail=d.numFailedTests||0;
+  animate('total',tot);animate('pass',pass);animate('fail',fail);
+  document.getElementById('subtotal').textContent=(d.numTotalTestSuites||0)+' suites';
+  document.getElementById('subpass').textContent=((pass/tot)*100||0).toFixed(1)+'%';
+  document.getElementById('subfail').textContent=fail>0?fail+' erro(s)':'OK';
+  data=d.testResults||[];renderTable(data);renderTime(data);
+}
+function renderC(d){
+  const files=Object.values(d||{}).filter(f=>f&&(f.s||f.fnMap||f.l));
+  if(!files.length)return;
+  let st=0,fn=0,li=0,br=0,stc=0,fnc=0,lic=0,brc=0;
+  files.forEach(f=>{
+    if(f.s){const ks=Object.keys(f.s);st+=(ks.filter(k=>f.s[k]>0).length/ks.length)*100;stc++;}
+    if(f.fnMap){const ks=Object.keys(f.f||{});fn+=(ks.filter(k=>f.f[k]>0).length/ks.length)*100;fnc++;}
+    if(f.l){const ks=Object.values(f.l);li+=(ks.filter(v=>v>0).length/ks.length)*100;lic++;}
+    if(f.branchMap){const ks=Object.values(f.b||{});br+=(ks.filter(v=>v>0).length/ks.length)*100;brc++;}
+  });
+  const avg=((stc?st/stc:0)+(fnc?fn/fnc:0)+(lic?li/lic:0)+(brc?br/brc:100))/4;
+  document.getElementById('cov').textContent=avg.toFixed(1)+'%';
+  const sub=document.getElementById('subcov');
+  sub.textContent=avg>=80?'Excelente':avg>=60?'Média':'Baixa';
+  renderCovChart(stc?st/stc:0,fnc?fn/fnc:0,lic?li/lic:0,brc?br/brc:100);
+}
+function renderCovChart(s,f,l,b){
+  const ctx=document.getElementById('covChart').getContext('2d');
+  if(covC)covC.destroy();
+  covC=new Chart(ctx,{type:'doughnut',data:{labels:['Stmts','Funcs','Lines','Branches'],
+    datasets:[{data:[s,f,l,b],backgroundColor:[colors.b,colors.p,colors.g,colors.y],
+      borderWidth:0,borderRadius:4,spacing:3}]},options:{responsive:true,maintainAspectRatio:false,
+      cutout:'70%',plugins:{legend:{position:'bottom',labels:{color:colors.t,padding:12,font:{size:11}}},
+      tooltip:{backgroundColor:'#1e293b',titleColor:'#f1f5f9',bodyColor:colors.t,borderColor:'rgba(255,255,255,0.1)',
+      borderWidth:1,cornerRadius:6,padding:10,callbacks:{label:(c)=>` ${c.label}: ${c.parsed.toFixed(1)}%`}}}}}});
+}
+function renderTime(s){
+  const ctx=document.getElementById('timeChart').getContext('2d');
+  let it=[];s.forEach(x=>{const n=x.name.split(/[\\/]/).pop().replace('.test.js','');
+    const t=((x.endTime||0)-(x.startTime||0))/1000;if(t>0)it.push({n,t});});
+  it.sort((a,b)=>b.t-a.t);it=it.slice(0,6);
+  if(timeC)timeC.destroy();
+  timeC=new Chart(ctx,{type:'bar',data:{labels:it.map(i=>i.n),
+    datasets:[{label:'s',data:it.map(i=>i.t),backgroundColor:it.map(i=>i.t>1?colors.r+'aa':i.t>0.5?colors.y+'aa':colors.g+'aa'),
+      borderColor:it.map(i=>i.t>1?colors.r:i.t>0.5?colors.y:colors.g),borderWidth:1,borderRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false}},
+      scales:{x:{grid:{color:colors.gr},ticks:{color:colors.t,font:{size:10}}},
+        y:{grid:{display:false},ticks:{color:colors.t,font:{size:10}}}}}})};
+function renderTable(s){
+  const el=document.getElementById('suites');
+  if(!s.length){el.innerHTML='<div class="loading"><div class="spinner"></div><span>Nenhum teste</span></div>';return;}
+  let h='<table><thead><tr><th>Arquivo</th><th>Status</th><th>Passou</th><th>Falhou</th><th>Cov</th><th>Tempo</th></tr></thead><tbody>';
+  s.forEach(x=>{const n=x.name.split(/[\\/]/).pop();const st=x.status==='passed'?'pass':'fail';
+    const t=(((x.endTime||0)-(x.startTime||0))/1000).toFixed(2);
+    const a=x.assertionResults||[];const pc=a.filter(z=>z.status==='passed').length;
+    const fc=a.filter(z=>z.status==='failed').length;const tot=pc+fc;
+    const pct=tot>0?(pc/tot)*100:0;const cl=pct>=90?'green':pct>=50?'yellow':'red';
+    if(filter!=='all'&&filter!==st)return;
+    h+=`<tr><td><strong>${n}</strong></td><td><span class="badge badge-${st}">${st==='pass'?'Passou':'Falhou'}</span></td>
+    <td style="color:var(--green)">${pc}</td><td style="color:var(--red)">${fc}</td>
+    <td><div class="progress"><div class="progress-bar ${cl}" style="width:${pct}%"></div></div>${pct.toFixed(0)}%</td><td>${t}s</td></tr>`;
+  });h+='</tbody></table>';el.innerHTML=h;
+}
+function filter(f){filter=f;document.querySelectorAll('.filter-tab').forEach(t=>t.classList.toggle('active',t.onclick&&t.onclick.toString().includes(f)));renderTable(data);}
+function animate(id,e){const el=document.getElementById(id);const s=parseInt(el.textContent)||0;
+  const d=600;t=performance.now();function u(n){const p=Math.min((n-t)/d,1);const a=1-Math.pow(1-p,3);
+  el.textContent=Math.round(s+(a*e));if(p<1)requestAnimationFrame(u);}
+  requestAnimationFrame(u);}
+async function runTests(){
+  const btn=document.querySelector('.btn');btn.disabled=true;btn.innerHTML='<div class="spinner" style="width:14px;height:14px;border-width:2px"></div> Executando...';
+  try{const r=await fetch('/api/run-tests',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'all'})});
+  const t=await r.text();let d;try{d=JSON.parse(t);}catch(e){throw new Error('Resposta inválida');}
+  if(d.success)await fetchData();else showErr('Erro: '+(d.error||'desconhecido'));}catch(e){showErr(e.message);}
+  finally{btn.disabled=false;btn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg> Executar';}
+}
+function showErr(m){document.getElementById('error').innerHTML=`<div style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:#fca5a5;padding:14px 18px;border-radius:12px;margin-bottom:20px;display:flex;align-items:center;gap:10px"><span>⚠️</span>${m}</div>`;}
+function hideErr(){document.getElementById('error').innerHTML='';}
+fetchData();
+setInterval(fetchData,30000);
+</script>
 </body>
 </html>
