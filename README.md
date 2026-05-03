@@ -5,8 +5,19 @@
 ![GitHub license](https://img.shields.io/github/license/rafarfelipe/jest-financeiro-testes)
 ![Jest](https://img.shields.io/badge/Jest-30.3.0-99424f?logo=jest)
 ![Node](https://img.shields.io/badge/Node-24.x-339933?logo=node.js)
+![Coverage](https://img.shields.io/badge/Coverage-100%25-brightgreen)
 
 > Repositório dedicado ao estudo e prática de testes automatizados com Jest, focando em aplicações financeiras e integração contínua.
+
+O projeto simula cenários reais com módulos de **financas** e **pedidos**, permitindo praticar testes de integração com APIs externas e mocks.
+
+### API Utilizada
+
+Os testes de integração sao realizados contra a API do [Barriga React](https://barrigareact.wcaquino.me/), uma aplicacao de controle financeiro utilizada para testes e aprendizado.
+
+### Dashboard de Testes
+
+Acompanhe a execução dos testes em tempo real: [Dashboard](http://localhost:3000)
 
 ---
 
@@ -18,6 +29,7 @@
 - [Estrutura do Projeto](#estrutura-do-projeto)
 - [Como executar](#como-executar)
 - [Testes](#testes)
+- [Organização de Testes](#organização-de-testes)
 - [CI/CD](#cicd)
 - [Autor](#autor)
 
@@ -27,11 +39,7 @@
 
 Este repositório reúne estudos praticos de testes automatizados utilizando **Jest**. O foco e dominar desde testes unitarios basicos ate configuracoes avancadas de cobertura e integracao continua com GitHub Actions.
 
-O projeto simula cenarios reais com modulos de **financas** e **pedidos**, permitindo praticar testes de integracao com APIs externas e mocks.
-
-### API Utilizada
-
-Os testes de integracao sao realizados contra a API do [Barriga React](https://barrigareact.wcaquino.me/), uma aplicacao de controle financeiro utilizada para testes e aprendizado.
+O projeto simula cenarios reais com módulos de **financas** e **pedidos**, permitindo praticar testes de integração com APIs externas e mocks.
 
 ---
 
@@ -45,7 +53,8 @@ Durante o desenvolvimento deste projeto, foram absorvidos os seguintes conceitos
 - Interpretar e otimizar metricas de cobertura de codigo
 - Gerar relatorios profissionais em formatos JUnit e JSON
 - Debugar testes falhos com precisao
-- Estruturar suites de testes sustentaveis
+- Estruturar suites de testes sustentaveis com boas práticas
+- Organizar testes co-locados junto aos módulos
 
 ---
 
@@ -58,6 +67,7 @@ As seguintes ferramentas foram usadas na construcao do projeto:
 - **Babel** - Transpilador para suporte a ES Modules
 - **Axios** - Cliente HTTP para testes de integracao
 - **GitHub Actions** - CI/CD
+- **Chart.js** - Visualização de dados no dashboard
 
 ---
 
@@ -66,12 +76,22 @@ As seguintes ferramentas foram usadas na construcao do projeto:
 ```
 jest-financeiro-testes/
 ├── src/
-│   ├── basico/           # Testes basicos (calculadora, matchers)
 │   ├── financeiro/       # Modulo financeiro e testes de integracao
-│   └── pedidos/         # Modulo de pedidos e servicos
+│   │   ├── financeiro.js
+│   │   ├── financeiro.test.js
+│   │   └── __snapshots__/
+│   ├── pedidos/          # Modulo de pedidos e servicos
+│   │   ├── pedidoService.js
+│   │   └── pedidoService.test.js  # Todos os testes co-locados
+│   └── basico/           # Testes basicos (calculadora, matchers)
 ├── .github/
 │   └── workflows/       # Pipeline CI/CD
-├── jest.config.js        # Configuracao do Jest
+├── __tests__/           # Testes de integracao/E2E
+├── coverage/            # Relatorios de cobertura
+├── reports/             # Relatorios JUnit
+├── dashboard-server.js  # Servidor do dashboard
+├── dashboard.html       # Interface do dashboard
+├── jest.config.js       # Configuracao do Jest
 ├── .babelrc             # Configuracao do Babel
 └── package.json
 ```
@@ -119,8 +139,53 @@ npm run test:watch
 npm run test:coverage
 ```
 
+### Executar testes com relatorio (CI)
+```bash
+npm run test:ci
+```
+
+### Iniciar dashboard
+```bash
+npm start
+# Acesse http://localhost:3000
+```
+
+### Status Atual dos Testes
+
+✅ **Test Suites:** 6 passed, 6 total  
+✅ **Tests:** 32 passed, 32 total  
+✅ **Cobertura:** 100% em todos os módulos  
+
 ### Cobertura de Testes
 O projeto mantem uma meta de **90% de cobertura** em linhas de codigo, conforme configurado em `jest.config.js`.
+
+Atualmente atingimos **100% de cobertura** em todos os módulos:
+- `financeiroService.js` - 100%
+- `relatorioService.js` - 100%
+- `pedidoService.js` - 100%
+
+---
+
+## Organização de Testes
+
+### Boas Práticas Adotadas
+
+1. **Testes Co-locados**: Arquivos de teste na mesma pasta dos módulos (`src/**/*.test.js`)
+2. **Estruturação com Describe**: Separação clara por função/teste
+3. **Limpeza de Mocks**: Uso de `mockRestore()` após cada teste
+4. **Testes Independentes**: Sem dependência entre casos de teste
+5. **Nomes Descritivos**: Nomes claros para funções e testes
+
+### Estrutura dos Testes
+
+```javascript
+describe('Pedido Service', () => {
+  describe('calcularTotal', () => { ... })      // Teste unitário
+  describe('aplicarDesconto', () => { ... })    // Teste unitário
+  describe('gerarNota', () => { ... })          // Teste unitário
+  describe('fecharPedido', () => { ... })       // Teste de integração
+})
+```
 
 ---
 
@@ -132,6 +197,20 @@ O projeto possui integracao continua configurada via **GitHub Actions**.
 - Executa automaticamente em push e pull requests para `main`
 - Node.js 24.x
 - Instala dependencias e executa todos os testes
+- Gera relatórios JUnit para visualização no GitHub
+
+### Pipeline
+
+```
+1. Checkout do código
+2. Setup Node.js 24.x
+3. Instalação de dependências (npm install)
+4. Execução dos testes (npm run test:ci)
+   - Testes unitários e de integração
+   - Cobertura de código
+   - Geração de relatórios
+5. Publicação do relatório de testes
+```
 
 ---
 

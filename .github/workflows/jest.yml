@@ -25,7 +25,13 @@ jobs:
     - name: Instalando dependências
       run: npm install
 
-    - name: Executando os testes
+    - name: Executando testes unitários
+      run: npm test
+
+    - name: Gerando cobertura de código
+      run: npm run test:coverage
+
+    - name: Executando testes de integração (CI)
       run: npm run test:ci
 
     - name: Publicar Relatório de Testes

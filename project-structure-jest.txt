@@ -1,0 +1,28 @@
+📁 Jest-Financeiro-Testes/
+├── 📄 .gitignore                  # Arquivos ignorados pelo Git
+├── 📄 package.json               # Dependências e scripts do projeto
+├── 📄 package-lock.json           # Versões exatas das dependências
+├── 📄 README.md                  # Documentação do projeto
+├── 📄 .github/workflows/
+│   └── 📄 jest.yml              # GitHub Action para testes automatizados
+├── 📁 src/
+│   ├── 📄 index.js               # Arquivo principal da aplicação financeira
+│   ├── 📄 transactions.js        # Módulo de transações financeiras
+│   ├── 📄 accounts.js           # Módulo de contas financeiras
+│   └── 📄 utils.js               # Funções utilitárias
+├── 📁 __tests__/
+│   ├── 📄 index.test.js         # Testes do arquivo principal
+│   ├── 📄 transactions.test.js   # Testes das transações
+│   ├── 📄 accounts.test.js      # Testes das contas
+│   └── 📄 utils.test.js         # Testes das utilitárias
+├── 📁 reports/
+│   ├── 📄 report.json           # Relatório JSON dos testes
+│   └── 📄 junit.xml             # Relatório JUnit XML
+├── 📁 coverage/
+│   ├── 📄 coverage-final.json   # Relatório final de cobertura
+│   └── 📁 lcov-report/
+│       ├── ├── index.html       # Relatório HTML de cobertura
+│       └── └── ...              # Outros arquivos do relatório
+├── 📄 dashboard.html            # Interface do dashboard (em desenvolvimento)
+├── 📄 dashboard-server.js       # Servidor do dashboard (em desenvolvimento)
+└── 📄 jest-mcp-server.js       # MCP server para Jest (em desenvolvimento)
