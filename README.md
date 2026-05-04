@@ -3,15 +3,23 @@
 > Repositório dedicado ao estudo e prática de testes automatizados com Jest, focando em aplicações financeiras e integração contínua.
 
 ## Índice
-- [Sobre](#sobre)
-- [Aprendizados](#aprendizados)
-- [Tecnologias](#tecnologias)
-- [Estrutura do Projeto](#estrutura-do-projeto)
-- [Como executar](#como-executar)
-- [Testes](#testes)
-- [Organização de Testes](#organização-de-testes)
-- [CI/CD](#cicd)
-- [Autor](#autor)
+
+- [Jest Financeiro Testes](#jest-financeiro-testes)
+  - [Índice](#índice)
+  - [Sobre](#sobre)
+  - [Aprendizados](#aprendizados)
+  - [Tecnologias](#tecnologias)
+  - [Estrutura do Projeto](#estrutura-do-projeto)
+  - [Como executar](#como-executar)
+  - [Testes](#testes)
+  - [Status Atual dos Testes](#status-atual-dos-testes)
+  - [Cobertura de Testes](#cobertura-de-testes)
+  - [Organização de Testes](#organização-de-testes)
+    - [Boas Práticas Adotadas](#boas-práticas-adotadas)
+    - [Estrutura de Teste Exemplos](#estrutura-de-teste-exemplos)
+  - [CI/CD](#cicd)
+  - [Autor](#autor)
+  - [Licença](#licença)
 
 ---
 
@@ -86,10 +94,9 @@ jest-financeiro-testes/
 > **Passos**
 >
 >```bash
->git clone https://github.com/rafarfelipe/jest-financeiro-testes.git
->cd jest-financeiro-testes
->npm install
->npm test
+>
+
+>>>npm test
 >```
 
 ---
@@ -158,7 +165,7 @@ Pipeline GitHub Actions definido em `.github/workflows/jest.yml`:
 
 ## Autor
 
-Feito por **Rafael Felipe**. <https://github.com/rafarfelipe>
+Feito por **Rafael Felipe**. <https://www.linkedin.com/in/rafaelrfelipe/>
 
 ---
 
